@@ -21,7 +21,30 @@ urlpatterns = patterns('',
          name='groups_edit'),
     url(r'^groups/(?P<gid>\d+)/delete/$', 'students.views.groups.groups_delete',
          name='groups_delete'),
-
+         
+         
+    #Journal urls
+    url(r'^studexam/$', 'students.views.studexam.exam_list', name='studexam'),
+    url(r'^studexam/add/$', 'students.views.studexam.studexam_add',
+         name='studexam_add'),
+   url(r'^studexam/edit/$', 'students.views.studexam.studexam_edit',
+        name='studexam_edit'),
+#    url(r'^groups/(?P<gid>\d+)/delete/$', 'students.views.groups.groups_delete',
+#         name='groups_delete'),
+#         
+         
+         
+         
     url(r'^admin/', include(admin.site.urls)),
-
 )
+
+#add media files via DEBUG only while development,on production should make it directly via main server(e.g.Apache)
+from .settings import MEDIA_ROOT,DEBUG
+
+
+
+if DEBUG:
+    # serve files from media folder
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': MEDIA_ROOT}))
